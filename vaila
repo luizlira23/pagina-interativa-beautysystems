@@ -1,0 +1,224 @@
+index.html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Interativo | Beautysystems Franquias</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #fff, #fdf3f8);
+      color: #222;
+    }
+    .container {
+      max-width: 880px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .page {
+      display: none;
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .page.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    h1, h2 {
+      color: #c7257e;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background: #c7257e;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      margin-top: 2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #a81f67;
+    }
+    .result {
+      background: #fff5fa;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border-radius: 10px;
+    }
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page active" id="page1">
+      <h2>Apresentação Inicial</h2>
+      <p>Bem-vindo à nova unidade de franquias da Beautysystems. Vamos juntos entender como sua clínica pode crescer com as tecnologias mais avançadas do mercado.</p>
+      <button class="btn" onclick="proximaPagina(2)">Próximo</button>
+    </div>
+
+    <div class="page" id="page2">
+      <h2>📊 Oportunidade de Mercado</h2>
+      <p>O mercado de estética e bem-estar é um dos mais promissores no Brasil. Franquias que oferecem tecnologia de ponta conseguem se diferenciar com maior fidelização e ticket médio elevado.</p>
+      <p>Com a Beautysystems, sua clínica terá acesso a soluções personalizadas, suporte contínuo e equipamentos homologados pelos maiores nomes da estética nacional.</p>
+      <button class="btn" onclick="proximaPagina(3)">Próximo</button>
+    </div>
+
+    <div class="page" id="page3">
+      <h2>🤝 Conexão</h2>
+      <p>Antes de tudo, queremos te conhecer melhor. O que você mais valoriza em um parceiro de tecnologia?</p>
+      <textarea id="valorParceiro"></textarea>
+      <button class="btn" onclick="proximaPagina(4)">Próximo</button>
+    </div>
+
+    <div class="page" id="page4">
+      <h2>📌 Identificação de Oportunidades</h2>
+      <p>Vamos entender os desafios da sua clínica.</p>
+      <label><input type="checkbox" id="flag1"> Já perdeu pacientes por não ter uma tecnologia?</label>
+      <label><input type="checkbox" id="flag2"> Tem dificuldade em manter o faturamento constante?</label>
+      <label><input type="checkbox" id="flag3"> Sente que a concorrência está se diferenciando com equipamentos?</label>
+      <label><input type="checkbox" id="flag4"> Gostaria de aumentar a margem sem aumentar a equipe?</label>
+      <button class="btn" onclick="gerarSolucoes(); proximaPagina(5)">Próximo</button>
+    </div>
+
+    <div class="page" id="page5">
+      <h2>Solução Personalizada</h2>
+      <p id="solucaoTexto">Analisando suas respostas, encontramos soluções perfeitas para sua clínica:</p>
+      <ul id="listaSolucoes"></ul>
+      <button class="btn" onclick="proximaPagina(6)">Próximo</button>
+    </div>
+
+    <div class="page" id="page6">
+      <h2>📋 Momento Consultor</h2>
+      <label>Quantos atendimentos são realizados por mês?</label>
+      <input type="number" id="atendimentosMes">
+
+      <label>Qual tecnologia você loca atualmente?</label>
+      <input type="text" id="tecnologiaLocada">
+
+      <label>Quais os 3 procedimentos mais realizados na clínica?</label>
+      <input type="text" id="procedimentosTop">
+
+      <button class="btn" onclick="proximaPagina(7)">Próximo</button>
+    </div>
+
+    <div class="page" id="page7">
+      <h2>🔍 Diagnóstico Final e Recomendação</h2>
+      <p>Com base nas informações fornecidas, as tecnologias recomendadas são:</p>
+      <ul>
+        <li><strong>Lavieen:</strong> ideal para rejuvenescimento e uniformização da pele</li>
+        <li><strong>Ultraformer:</strong> lifting facial e corporal sem cirurgia</li>
+      </ul>
+      <p>Essas tecnologias atendem diretamente os procedimentos mais realizados na sua clínica.</p>
+      <button class="btn" onclick="proximaPagina(8)">Ver Cálculo de ROI</button>
+    </div>
+
+    <div class="page" id="page8">
+      <h2>💰 Cálculo de ROI</h2>
+      <p>Informe os dados estimados de uso mensal:</p>
+      <label>Valor da tecnologia Lavieen:</label>
+      <input type="number" id="valorLavieen">
+
+      <label>Valor da tecnologia Ultraformer:</label>
+      <input type="number" id="valorUltraformer">
+
+      <label>Atendimentos por dia com cada tecnologia:</label>
+      <input type="number" id="atendimentosPorDia">
+
+      <label>Dias de uso por mês:</label>
+      <input type="number" id="diasUsoMes">
+
+      <label>Ticket médio por procedimento:</label>
+      <input type="number" id="ticketMedio">
+
+      <button class="btn" onclick="calcularROI()">Calcular ROI</button>
+    </div>
+
+    <div class="page" id="page9">
+      <h2>📈 Resultado do ROI</h2>
+      <div id="resultadoROI" class="result"></div>
+      <button class="btn" onclick="proximaPagina(1)">Reiniciar</button>
+    </div>
+  </div>
+
+  <script>
+    function proximaPagina(pagina) {
+      const allPages = document.querySelectorAll('.page');
+      allPages.forEach(p => p.classList.remove('active'));
+      const target = document.getElementById(`page${pagina}`);
+      if (target) target.classList.add('active');
+    }
+
+    function gerarSolucoes() {
+      const lista = document.getElementById('listaSolucoes');
+      lista.innerHTML = '';
+
+      if (document.getElementById('flag1').checked)
+        lista.innerHTML += '<li>✔️ A Lavieen e o Ultraformer cobrem mais de 80% dos procedimentos buscados em estética avançada.</li>';
+
+      if (document.getElementById('flag2').checked)
+        lista.innerHTML += '<li>📈 Crie pacotes lucrativos com margem acima de 70% usando nossas tecnologias.</li>';
+
+      if (document.getElementById('flag3').checked)
+        lista.innerHTML += '<li>🏆 Destaque-se da concorrência com exclusividade e inovação tecnológica.</li>';
+
+      if (document.getElementById('flag4').checked)
+        lista.innerHTML += '<li>💰 Escale seus lucros sem contratar mais pessoal com protocolos automatizados.</li>';
+
+      if (lista.innerHTML === '')
+        lista.innerHTML = '<li>🚀 A inovação é o próximo passo para o seu crescimento. Vamos juntos?</li>';
+    }
+
+    function calcularROI() {
+      const vLav = parseFloat(document.getElementById('valorLavieen').value);
+      const vUlt = parseFloat(document.getElementById('valorUltraformer').value);
+      const atend = parseInt(document.getElementById('atendimentosPorDia').value);
+      const dias = parseInt(document.getElementById('diasUsoMes').value);
+      const ticket = parseFloat(document.getElementById('ticketMedio').value);
+
+      const totalAtend = atend * dias;
+      const faturamento = ticket * totalAtend;
+      const marketing = faturamento * 0.1;
+      const operacional = faturamento * 0.15;
+      const royalties = faturamento * 0.05;
+
+      const lucroLav = faturamento - (vLav + marketing + operacional + royalties);
+      const lucroUlt = faturamento - (vUlt + marketing + operacional + royalties);
+
+      const html = `
+        <p><strong>Lavieen:</strong> ROI estimado: R$ ${lucroLav.toFixed(2)}</p>
+        <p><strong>Ultraformer:</strong> ROI estimado: R$ ${lucroUlt.toFixed(2)}</p>
+        <p><em>Faturamento bruto mensal estimado: R$ ${faturamento.toFixed(2)}</em></p>
+        <p>Descontado: 10% marketing, 15% operação, 5% royalties.</p>
+      `;
+
+      document.getElementById('resultadoROI').innerHTML = html;
+      proximaPagina(9);
+    }
+  </script>
+</body>
+</html>
