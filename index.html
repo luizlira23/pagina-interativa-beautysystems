@@ -78,6 +78,12 @@ index.html
     <div class="page active" id="page1">
       <h2>Apresentação Inicial</h2>
       <p>Bem-vindo à nova unidade de franquias da Beautysystems. Vamos juntos entender como sua clínica pode crescer com as tecnologias mais avançadas do mercado.</p>
+      <label>Nome da clínica:</label>
+      <input type="text" id="nomeClinica">
+      <label>Nome do responsável:</label>
+      <input type="text" id="nomePessoa">
+      <label>Cargo:</label>
+      <input type="text" id="cargoPessoa">
       <button class="btn" onclick="proximaPagina(2)">Próximo</button>
     </div>
 
@@ -155,13 +161,41 @@ index.html
         const faturamentoObjetivo = document.getElementById('faturamentoObjetivo').value;
         const tempoClinica = document.getElementById('tempoClinica').value;
         const valorParceiro = document.getElementById('valorParceiro').value;
+        const nomePessoa = document.getElementById('nomePessoa').value;
+        const nomeClinica = document.getElementById('nomeClinica').value;
+        const cargoPessoa = document.getElementById('cargoPessoa').value;
         const roiLav = 120;
         const roiUlt = 95;
+
+        const prompt = `Você está atuando como consultor da Beautysystems. Com base nas seguintes informações, gere uma resposta personalizada, persuasiva e orientada à conversão para ${nomePessoa}, que ocupa o cargo de ${cargoPessoa} na clínica ${nomeClinica}.
+
+Tempo de clínica: ${tempoClinica}
+Faturamento atual: R$ ${faturamentoAtual}
+Meta de faturamento: R$ ${faturamentoObjetivo}
+Parâmetros valorizados no parceiro ideal: ${valorParceiro}
+Tecnologias sugeridas: ${procedimentos}
+ROI estimado Lavieen: ${roiLav}%
+ROI estimado Ultraformer: ${roiUlt}%
+
+Inclua:
+- Como essas tecnologias se alinham aos objetivos financeiros da clínica;
+- Como elas podem ajudar ${nomePessoa} a se destacar no mercado;
+- Um fechamento chamando à ação, mostrando como a Beautysystems pode ser a chave para essa transformação.`;
 
         fetch("/api/gpt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ faturamentoAtual, faturamentoObjetivo, tempoClinica, valorParceiro, procedimentos, roiLav, roiUlt })
+          body: JSON.stringify({ prompt })
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("gptResposta").innerText = data.texto || "Resposta não recebida.";
+        })
+        .catch(() => {
+          document.getElementById("gptResposta").innerText = "Erro ao gerar resposta personalizada.";
+        });
+      },
+          body: JSON.stringify({ nomePessoa, nomeClinica, cargoPessoa, faturamentoAtual, faturamentoObjetivo, tempoClinica, valorParceiro, procedimentos, roiLav, roiUlt })
         })
         .then(res => res.json())
         .then(data => {
