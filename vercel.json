@@ -5,7 +5,7 @@
     { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/diagnostico", "dest": "api/diagnostico.js" },
+    { "src": "/api/diagnostico", "dest": "/api/diagnostico.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
