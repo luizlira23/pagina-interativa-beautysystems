@@ -7,6 +7,7 @@ index.html
   <title>Diagnóstico Interativo | Beautysystems Franquias</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon-192.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -42,7 +43,7 @@ index.html
       display: block;
       margin-top: 1rem;
     }
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 0.5rem;
       margin-top: 0.25rem;
@@ -68,144 +69,134 @@ index.html
       margin-top: 1.5rem;
       border-radius: 10px;
     }
-    .center {
-      text-align: center;
+    #graficoROI {
+      max-width: 600px;
+      margin: 2rem auto;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="page active" id="page1">
-      <h2>Apresentação Inicial</h2>
-      <p>Bem-vindo à nova unidade de franquias da Beautysystems. Vamos juntos entender como sua clínica pode crescer com as tecnologias mais avançadas do mercado.</p>
-      <label>Nome da clínica:</label>
-      <input type="text" id="nomeClinica">
-      <label>Nome do responsável:</label>
-      <input type="text" id="nomePessoa">
-      <label>Cargo:</label>
-      <input type="text" id="cargoPessoa">
+      <h1>Diagnóstico Interativo - Beautysystems</h1>
+      <label>Nome da Clínica</label>
+      <input id="nomeClinica">
+      <label>Nome do Responsável</label>
+      <input id="nomePessoa">
+      <label>Cargo</label>
+      <input id="cargoPessoa">
+      <label>Meta de faturamento mensal (R$)</label>
+      <input id="faturamentoObjetivo" type="number">
       <button class="btn" onclick="proximaPagina(2)">Próximo</button>
     </div>
 
     <div class="page" id="page2">
-      <h2>📊 Oportunidade de Mercado</h2>
-      <p>O mercado de estética e bem-estar é um dos mais promissores no Brasil. Franquias que oferecem tecnologia de ponta conseguem se diferenciar com maior fidelização e ticket médio elevado.</p>
-      <p>Com a Beautysystems, sua clínica terá acesso a soluções personalizadas, suporte contínuo e equipamentos homologados pelos maiores nomes da estética nacional.</p>
+      <h2>Conexão</h2>
+      <p>A Beautysystems é referência nacional em soluções tecnológicas para estética. Nossos parceiros contam com:</p>
+      <ul>
+        <li>Suporte clínico e comercial</li>
+        <li>Treinamentos personalizados</li>
+        <li>Protocolos validados com alta margem</li>
+      </ul>
       <button class="btn" onclick="proximaPagina(3)">Próximo</button>
     </div>
 
     <div class="page" id="page3">
-      <h2>🤝 Conexão</h2>
-      <p>Antes de tudo, queremos te conhecer melhor. O que você mais valoriza em um parceiro de tecnologia?</p>
-      <textarea id="valorParceiro"></textarea>
-      <button class="btn" onclick="proximaPagina(4)">Próximo</button>
+      <h2>Identificação de Oportunidades</h2>
+      <label><input type="checkbox" id="flagFaltaClientes"> Tem dificuldade para atrair novos clientes?</label>
+      <label><input type="checkbox" id="flagPerdeVendas"> Já perdeu vendas por não ter certas tecnologias?</label>
+      <label><input type="checkbox" id="flagBaixoFaturamento"> Faturamento abaixo do desejado?</label>
+      <label><input type="checkbox" id="flagConcorrencia"> Concorrência com clínicas tecnológicas?</label>
+      <button class="btn" onclick="proximaPagina(7)">Próximo</button>
+    </div>
+
+    <div class="page" id="page7">
+      <h2>Informações Complementares</h2>
+      <label>Tempo de Clínica (anos)</label>
+      <input id="tempoClinica" type="number">
+      <label>Quais tecnologias você já loca?</label>
+      <input id="tecnologiasLocadas">
+      <label>Quais os 3 procedimentos mais realizados?</label>
+      <textarea id="procedimentosPrincipais"></textarea>
+      <button class="btn" onclick="proximaPagina(4)">Gerar Solução com IA</button>
     </div>
 
     <div class="page" id="page4">
-      <h2>📌 Identificação de Oportunidades</h2>
-      <p>Vamos entender os desafios da sua clínica.</p>
-      <label><input type="checkbox" id="flag1"> Já perdeu pacientes por não ter uma tecnologia?</label>
-      <label><input type="checkbox" id="flag2"> Tem dificuldade em manter o faturamento constante?</label>
-      <label><input type="checkbox" id="flag3"> Sente que a concorrência está se diferenciando com equipamentos?</label>
-      <label><input type="checkbox" id="flag4"> Gostaria de aumentar a margem sem aumentar a equipe?</label>
-
-      <label>Quanto tempo de clínica?</label>
-      <input type="text" id="tempoClinica">
-      <label>Faturamento mensal atual:</label>
-      <input type="number" id="faturamentoAtual">
-      <label>Meta de faturamento mensal:</label>
-      <input type="number" id="faturamentoObjetivo">
-
-      <button class="btn" onclick="gerarSolucoes(); proximaPagina(5)">Próximo</button>
+      <h2>Solução Personalizada</h2>
+      <p>Gerando sugestões com base no seu perfil...</p>
+      <div id="respostaGPT" class="result">(aguardando geração...)</div>
+      <button class="btn" onclick="proximaPagina(5)">Próximo</button>
     </div>
 
     <div class="page" id="page5">
-      <h2>Solução Personalizada</h2>
-      <p id="solucaoTexto">Analisando suas respostas, encontramos soluções perfeitas para sua clínica:</p>
-      <ul id="listaSolucoes"></ul>
-      <div id="gptResposta" class="result"></div>
-      <button class="btn" onclick="chamarGPT(); proximaPagina(6)">Próximo</button>
+      <h2>Simulador de ROI</h2>
+      <label>Tecnologia Escolhida</label>
+      <select id="tecnologiaEscolhida">
+        <option>Ultraformer</option>
+        <option>Lavieen</option>
+      </select>
+      <label>Valor da Tecnologia (R$)</label>
+      <input id="valorTecnologia" type="number">
+      <label>Ticket Médio por Atendimento (R$)</label>
+      <input id="ticketMedio" type="number">
+      <label>Atendimentos por Dia</label>
+      <input id="atendimentosDia" type="number">
+      <label>Dias de Uso por Mês</label>
+      <input id="diasUso" type="number">
+      <button class="btn" onclick="proximaPagina(6)">Calcular ROI</button>
     </div>
 
-    <script>
-      function proximaPagina(pagina) {
-        const allPages = document.querySelectorAll('.page');
-        allPages.forEach(p => p.classList.remove('active'));
-        const target = document.getElementById(`page${pagina}`);
-        if (target) target.classList.add('active');
-      }
+    <div class="page" id="page6">
+      <h2>Resumo e Encerramento</h2>
+      <div id="resumoFinal" class="result"></div>
+      <canvas id="graficoROI"></canvas>
+      <button class="btn" onclick="window.print()">Exportar Diagnóstico em PDF</button>
+    </div>
+  </div>
 
-      function gerarSolucoes() {
-        const lista = document.getElementById('listaSolucoes');
-        lista.innerHTML = '';
+  <script>
+    function proximaPagina(p) {
+      document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+      document.getElementById(`page${p}`).classList.add('active');
+      if (p === 4) gerarSolucoesGPT();
+      if (p === 6) gerarResumoFinal();
+    }
 
-        if (document.getElementById('flag1').checked)
-          lista.innerHTML += '<li>✔️ A Lavieen e o Ultraformer cobrem mais de 80% dos procedimentos buscados em estética avançada.</li>';
+    async function gerarSolucoesGPT() {
+      const nome = document.getElementById('nomePessoa').value;
+      const clinica = document.getElementById('nomeClinica').value;
+      const objetivo = document.getElementById('faturamentoObjetivo').value;
+      const tempo = document.getElementById('tempoClinica')?.value || "";
+      const tecnologias = document.getElementById('tecnologiasLocadas')?.value || "";
+      const procedimentos = document.getElementById('procedimentosPrincipais')?.value || "";
 
-        if (document.getElementById('flag2').checked)
-          lista.innerHTML += '<li>📈 Crie pacotes lucrativos com margem acima de 70% usando nossas tecnologias.</li>';
+      const flags = [];
+      if (document.getElementById('flagFaltaClientes').checked) flags.push("atração de clientes");
+      if (document.getElementById('flagPerdeVendas').checked) flags.push("perda de vendas por falta de tecnologia");
+      if (document.getElementById('flagBaixoFaturamento').checked) flags.push("baixo faturamento");
+      if (document.getElementById('flagConcorrencia').checked) flags.push("concorrência agressiva");
 
-        if (document.getElementById('flag3').checked)
-          lista.innerHTML += '<li>🏆 Destaque-se da concorrência com exclusividade e inovação tecnológica.</li>';
+      const payload = {
+        nome, clinica, objetivo, tempo, tecnologias, procedimentos, desafios: flags
+      };
 
-        if (document.getElementById('flag4').checked)
-          lista.innerHTML += '<li>💰 Escale seus lucros sem contratar mais pessoal com protocolos automatizados.</li>';
+      const respostaDiv = document.getElementById("respostaGPT");
+      respostaDiv.innerText = "Gerando resposta personalizada com IA...";
 
-        if (lista.innerHTML === '')
-          lista.innerHTML = '<li>🚀 A inovação é o próximo passo para o seu crescimento. Vamos juntos?</li>';
-      }
-
-      function chamarGPT() {
-        const procedimentos = "Lavieen, Ultraformer";
-        const faturamentoAtual = document.getElementById('faturamentoAtual').value;
-        const faturamentoObjetivo = document.getElementById('faturamentoObjetivo').value;
-        const tempoClinica = document.getElementById('tempoClinica').value;
-        const valorParceiro = document.getElementById('valorParceiro').value;
-        const nomePessoa = document.getElementById('nomePessoa').value;
-        const nomeClinica = document.getElementById('nomeClinica').value;
-        const cargoPessoa = document.getElementById('cargoPessoa').value;
-        const roiLav = 120;
-        const roiUlt = 95;
-
-        const prompt = `Você está atuando como consultor da Beautysystems. Com base nas seguintes informações, gere uma resposta personalizada, persuasiva e orientada à conversão para ${nomePessoa}, que ocupa o cargo de ${cargoPessoa} na clínica ${nomeClinica}.
-
-Tempo de clínica: ${tempoClinica}
-Faturamento atual: R$ ${faturamentoAtual}
-Meta de faturamento: R$ ${faturamentoObjetivo}
-Parâmetros valorizados no parceiro ideal: ${valorParceiro}
-Tecnologias sugeridas: ${procedimentos}
-ROI estimado Lavieen: ${roiLav}%
-ROI estimado Ultraformer: ${roiUlt}%
-
-Inclua:
-- Como essas tecnologias se alinham aos objetivos financeiros da clínica;
-- Como elas podem ajudar ${nomePessoa} a se destacar no mercado;
-- Um fechamento chamando à ação, mostrando como a Beautysystems pode ser a chave para essa transformação.`;
-
-        fetch("/api/gpt", {
+      try {
+        const response = await fetch("https://SEU_BACKEND_URL/api/diagnostico", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt })
-        })
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("gptResposta").innerText = data.texto || "Resposta não recebida.";
-        })
-        .catch(() => {
-          document.getElementById("gptResposta").innerText = "Erro ao gerar resposta personalizada.";
+          body: JSON.stringify(payload)
         });
-      },
-          body: JSON.stringify({ nomePessoa, nomeClinica, cargoPessoa, faturamentoAtual, faturamentoObjetivo, tempoClinica, valorParceiro, procedimentos, roiLav, roiUlt })
-        })
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("gptResposta").innerText = data.texto || "Resposta não recebida.";
-        })
-        .catch(() => {
-          document.getElementById("gptResposta").innerText = "Erro ao gerar resposta personalizada.";
-        });
+        const data = await response.json();
+        respostaDiv.innerText = data.resposta || "Não foi possível gerar a resposta personalizada.";
+      } catch (error) {
+        respostaDiv.innerText = "Erro ao conectar com a IA. Verifique a conexão ou a API.";
       }
-    </script>
+    }
+  </script>
 </body>
 </html>
+
 
