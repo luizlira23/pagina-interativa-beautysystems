@@ -184,7 +184,9 @@ index.html
       respostaDiv.innerText = "Gerando resposta personalizada com IA...";
 
       try {
-        const response = await fetch("https://pagina-interativa-beautysystems-bj84-cjn8ttei9.vercel.app/api/diagnostico", {
+      const response = await fetch("/api/diagnostico", {
+, {
+, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
