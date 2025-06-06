@@ -157,7 +157,8 @@ index.html
   <script>
     function proximaPagina(p) {
       document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-      document.getElementById(`page${p}`).classList.add('active');
+      const target = document.getElementById(`page${p}`);
+      if (target) target.classList.add('active');
       if (p === 4) gerarSolucoesGPT();
       if (p === 6) gerarResumoFinal();
     }
@@ -184,9 +185,7 @@ index.html
       respostaDiv.innerText = "Gerando resposta personalizada com IA...";
 
       try {
-      const response = await fetch("/api/diagnostico", {
-, {
-, {
+        const response = await fetch("/api/diagnostico", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -200,5 +199,3 @@ index.html
   </script>
 </body>
 </html>
-
-
